@@ -2,12 +2,12 @@
 #include <libTimer.h>
 #include "lcdutils.h"
 #include "lcddraw.h"
+#include "buzzer.h"
 
 #define LED_GREEN BIT6             // P1.6
 
-
 short redrawScreen = 1;
-u_int fontFgColor = COLOR_GREEN;
+u_int color = COLOR_GREEN;
 
 void wdt_c_handler()
 {
@@ -16,7 +16,7 @@ void wdt_c_handler()
   secCount ++;
   if (secCount == 250) {		/* once/sec */
     secCount = 0;
-    //fontFgColor = (fontFgColor == COLOR_GREEN) ? COLOR_BLACK : COLOR_GREEN;
+    color = (color == COLOR_GREEN) ? COLOR_BLACK : COLOR_GREEN;
     redrawScreen = 1;
   }
 }
@@ -28,6 +28,7 @@ void main()
   P1OUT |= LED_GREEN;
   configureClocks();
   lcd_init();
+  buzzer_init();
   
   enableWDTInterrupts();      /**< enable periodic interrupt */
   or_sr(0x8);	              /**< GIE (enable interrupts) */
@@ -37,12 +38,15 @@ void main()
     static char count = 1;
     if (redrawScreen) {
       redrawScreen = 0;
-      //drawString5x7(20,20, "hello", fontFgColor, COLOR_WHITE);
-      //drawTree(50, 60, COLOR_GREEN);
+      //drawString5x7(20,20, "hello", color, COLOR_WHITE);
       switch(count){
       case 1:
-	//fillRectangle(30, 30, 60, 60, COLOR_ORANGE);
-	drawTree(50, 60, COLOR_GREEN);
+	fillRectangle(30, 30, 60, 60, color);
+	//drawTree(50, 60, COLOR_GREEN);
+	count++;
+      case 2:
+	//buzzer_set_period(2000);
+	count = 1;
 	break;
       }
     }

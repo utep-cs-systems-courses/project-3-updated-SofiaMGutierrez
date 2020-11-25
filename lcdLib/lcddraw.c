@@ -17,6 +17,31 @@ void drawPixel(u_char col, u_char row, u_int colorBGR)
   lcd_writeColor(colorBGR);
 }
 
+void drawTree(u_char col, u_char row, u_int colorBGR){
+  u_char r, c;
+  u_char center = 10;
+  for(r = 0; r <= 10; r++){
+    for(c = 0; c <= r; c++){
+      drawPixel(center+c+55, r+60, COLOR_GREEN);
+      drawPixel(center-c+55, r+60, COLOR_GREEN);
+    }
+  }
+  //offr+5;
+  for(r = 0; r <= 20; r++){
+    for(c = 0; c <= r; c++){
+      drawPixel(center+c+55, r+65, COLOR_GREEN);
+      drawPixel(center-c+55, r+65, COLOR_GREEN);
+    }
+  }
+  //offr+8;
+  for(r = 0; r <= 30; r++){
+    for(c = 0; c <= r; c++){
+      drawPixel(center+c+55, r+73, COLOR_GREEN);
+      drawPixel(center-c+55, r+73, COLOR_GREEN);
+    }
+  }
+}
+
 /** Fill rectangle
  *
  *  \param colMin Column start
@@ -93,7 +118,6 @@ void drawString5x7(u_char col, u_char row, char *string,
     cols += 6;
   }
 }
-
 
 /** Draw rectangle outline
  *  

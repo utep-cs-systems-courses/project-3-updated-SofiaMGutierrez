@@ -16,7 +16,7 @@ void wdt_c_handler()
   secCount ++;
   if (secCount == 250) {		/* once/sec */
     secCount = 0;
-    fontFgColor = (fontFgColor == COLOR_GREEN) ? COLOR_BLACK : COLOR_GREEN;
+    //fontFgColor = (fontFgColor == COLOR_GREEN) ? COLOR_BLACK : COLOR_GREEN;
     redrawScreen = 1;
   }
 }
@@ -32,11 +32,19 @@ void main()
   enableWDTInterrupts();      /**< enable periodic interrupt */
   or_sr(0x8);	              /**< GIE (enable interrupts) */
   
-  clearScreen(COLOR_BLUE);
+  clearScreen(COLOR_WHITE);
   while (1) {			/* forever */
+    static char count = 1;
     if (redrawScreen) {
       redrawScreen = 0;
-      drawString5x7(20,20, "hello", fontFgColor, COLOR_BLUE);
+      //drawString5x7(20,20, "hello", fontFgColor, COLOR_WHITE);
+      //drawTree(50, 60, COLOR_GREEN);
+      switch(count){
+      case 1:
+	//fillRectangle(30, 30, 60, 60, COLOR_ORANGE);
+	drawTree(50, 60, COLOR_GREEN);
+	break;
+      }
     }
     P1OUT &= ~LED_GREEN;	/* green off */
     or_sr(0x10);		/**< CPU OFF */

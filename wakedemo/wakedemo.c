@@ -38,11 +38,11 @@ void main()
     static char count = 1;
     if (redrawScreen) {
       redrawScreen = 0;
-      //drawString5x7(20,20, "hello", color, COLOR_WHITE);
+      drawString11x16(20,20, "hello", color, COLOR_WHITE);
       switch(count){
       case 1:
 	fillRectangle(30, 30, 60, 60, color);
-	//drawTree(50, 60, COLOR_GREEN);
+	drawTree(50, 60, COLOR_GREEN);
 	count++;
       case 2:
 	//buzzer_set_period(2000);

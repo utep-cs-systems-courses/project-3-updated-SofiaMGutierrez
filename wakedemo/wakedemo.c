@@ -3,6 +3,7 @@
 #include "lcdutils.h"
 #include "lcddraw.h"
 #include "buzzer.h"
+#include "p2switches.h"
 
 #define LED_GREEN BIT6             // P1.6
 
@@ -29,24 +30,23 @@ void main()
   configureClocks();
   lcd_init();
   buzzer_init();
+  p2sw_init(15);
   
   enableWDTInterrupts();      /**< enable periodic interrupt */
   or_sr(0x8);	              /**< GIE (enable interrupts) */
   
   clearScreen(COLOR_WHITE);
   while (1) {			/* forever */
-    static char count = 1;
     if (redrawScreen) {
       redrawScreen = 0;
-      drawString11x16(20,20, "hello", color, COLOR_WHITE);
-      switch(count){
+      drawString11x16(20,20, "Happy Holidays", color, COLOR_WHITE);
+      switch(button_state){
       case 1:
 	fillRectangle(30, 30, 60, 60, color);
 	drawTree(50, 60, COLOR_GREEN);
-	count++;
+	break;
       case 2:
-	//buzzer_set_period(2000);
-	count = 1;
+	buzzer_set_period(2000);
 	break;
       }
     }
@@ -55,9 +55,6 @@ void main()
     P1OUT |= LED_GREEN;		/* green on */
   }
 }
-
-    
-    
 
 
 

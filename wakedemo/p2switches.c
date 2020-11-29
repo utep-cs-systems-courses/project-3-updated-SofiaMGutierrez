@@ -4,7 +4,8 @@
 static unsigned char switch_mask;
 static unsigned char switches_last_reported;
 static unsigned char switches_current;
-char state1, state2, state3, state4, button_state;
+char state1, state2, state3, state4;
+char button_state = 0;
 
 static char
 switch_update_interrupt_sense()
@@ -45,16 +46,17 @@ void
 __interrupt_vec(PORT2_VECTOR) Port_2(){
   if (P2IFG & switch_mask) {  /* did a button cause this interrupt? */
     P2IFG &= ~switch_mask;	/* clear pending sw interrupts */
-    switch_update_interrupt_sense();
+    //switch_update_interrupt_sense();
+    switch_interrupt_handler();
   }
 }
 
 void switch_interrupt_handler(){
   char p2val = switch_update_interrupt_sense();
-  state1 = (p2val & BIT0) ? 0 : 1;
-  state2 = (p2val & BIT1) ? 0 : 1;
-  state3 = (p2val & BIT2) ? 0 : 1;
-  state4 = (p2val & BIT3) ? 0 : 1;
+  state1 = (p2val & 0x1) ? 0 : 1;
+  state2 = (p2val & 0x2) ? 0 : 1;
+  state3 = (p2val & 0x4) ? 0 : 1;
+  state4 = (p2val & 0x8) ? 0 : 1;
 
   if(state1){
     button_state = 1;

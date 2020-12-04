@@ -2,9 +2,35 @@
 #include "stateMachines.h"
 #include "led.h"
 #include "buzzer.h"
+#include "lcdutils.h"
+#include "lcddraw.h"
 
 static int state = 1;
-static char note = 0;
+static int note = 0;
+
+void xmas(int color)
+{
+  drawTree(color);
+  drawString5x7(20, 40, "Happy Holidays!", COLOR_RED, COLOR_WHITE);
+  switch(note){
+  case 0:
+    buzzer_set_period(3136);
+    note++;
+    break;
+  case 1:
+    buzzer_set_period(2093);
+    note++;
+    break;
+  case 2:
+    buzzer_set_period(2093);
+    note++;
+    break;
+  case 3:
+    buzzer_set_period(2349);
+    note = 0;
+    break;
+  }
+}
 
 char toggle_red() // on, off, on, off
 {
@@ -71,6 +97,31 @@ void toggle_red75() // on, on, on, off
   led_update();
 }
 
+void dim()
+{
+  char state = 0;
+  switch(state){
+  case 0:           /* no dim */
+    red_on = 1;
+    led_changed = 1;
+    led_update();
+    state++;
+    break;
+  case 1:           /* 25% intensity */
+    toggle_red25();
+    state++;
+    break;
+  case 2:           /* 50% intensity */
+    toggle_red();
+    state++;
+    break;
+  case 3:
+    toggle_red75(); /* 75% intensity */
+    state = 0;
+    break;
+  }
+}
+
 char toggle_green()
 {
   char changed = 0;
@@ -81,26 +132,42 @@ char toggle_green()
   return changed; // for state_advance
 }
 
+/*
+char song(char changed)
+{
+  char song_note = 0;
+  if(changed){
+    song_note = 10;
+  }
+  return song_note;
+}
+*/
+static int s = 1;
+static int note1 = 0;
+/*
 void song()
 {
-  switch(state){
+  switch (s){
   case 1:
-    note = 1000;
-    state++;
+    note1 = 1000;
+    s++;
     break;
   case 2:
-    note = 2000;
-    state++;
+    note1 = 2000;
+    s++;
     break;
   case 3:
-    note = 3000;
-    state = 0;
-    break;
-  default:
-    note = 0;
+    note1 = 3000;
+    s = 1;
     break;
   }
-  buzzer_set_period(2000000/note);
+  g(n);
+}
+*/
+
+void g(int n)
+{
+  buzzer_set_period(n);
 }
 
 void buzz_advance()              /* called by state_advance to play siren */

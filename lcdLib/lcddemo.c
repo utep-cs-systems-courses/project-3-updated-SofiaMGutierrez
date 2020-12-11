@@ -5,6 +5,7 @@
 #include <libTimer.h>
 #include "lcdutils.h"
 #include "lcddraw.h"
+#include "stateMachines.h"
 
 /** Initializes everything, clears the screen, draws "hello" and a square */
 int
@@ -20,7 +21,7 @@ main()
 
   //fillRectangle(30,30, 60, 60, COLOR_ORANGE);
 
-  drawTree(50, 60, COLOR_GREEN);
+  drawTree(COLOR_GREEN);
   
 }
 

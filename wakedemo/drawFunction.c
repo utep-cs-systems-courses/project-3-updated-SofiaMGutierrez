@@ -1,7 +1,7 @@
 #include "lcdutils.h"
 #include "lcddraw.h"
 
-void drawTree(u_int color){
+void drawT(u_int color){
   u_char r, c;
   u_char center = 10;
   for(r = 0; r <= 10; r++){

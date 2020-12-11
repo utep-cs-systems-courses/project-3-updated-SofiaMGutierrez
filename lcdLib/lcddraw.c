@@ -17,27 +17,34 @@ void drawPixel(u_char col, u_char row, u_int colorBGR)
   lcd_writeColor(colorBGR);
 }
 
-void drawTree(u_char col, u_char row, u_int colorBGR){
+void drawTree(u_int color){
   u_char r, c;
   u_char center = 10;
+  // Draws the top triangle
   for(r = 0; r <= 10; r++){
     for(c = 0; c <= r; c++){
-      drawPixel(center+c+55, r+60, COLOR_GREEN);
-      drawPixel(center-c+55, r+60, COLOR_GREEN);
+      drawPixel(center+c+55, r+60, color);
+      drawPixel(center-c+55, r+60, color);
     }
   }
-  //offr+5;
+  // Draws the middle triangle
   for(r = 0; r <= 20; r++){
     for(c = 0; c <= r; c++){
-      drawPixel(center+c+55, r+65, COLOR_GREEN);
-      drawPixel(center-c+55, r+65, COLOR_GREEN);
+      drawPixel(center+c+55, r+65, color);
+      drawPixel(center-c+55, r+65, color);
     }
   }
-  //offr+8;
+  // Draws the bottom triangle
   for(r = 0; r <= 30; r++){
     for(c = 0; c <= r; c++){
-      drawPixel(center+c+55, r+73, COLOR_GREEN);
-      drawPixel(center-c+55, r+73, COLOR_GREEN);
+      drawPixel(center+c+55, r+73, color);
+      drawPixel(center-c+55, r+73, color);
+    }
+  }
+  // Draws the trunk
+  for(r = 0; r <= 10; r++){
+    for(c = 0; c <= 10; c++){
+      drawPixel(c+60, r+104, COLOR_BROWN);
     }
   }
 }

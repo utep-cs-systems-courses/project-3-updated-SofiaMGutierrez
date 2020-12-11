@@ -13,7 +13,7 @@
  */
 void drawPixel(u_char col, u_char row, u_int colorBGR);
 
-void drawTree(u_char col, u_char row, u_int colorBGR);
+void drawTree(u_int color);
 
 /** Fill rectangle
  *

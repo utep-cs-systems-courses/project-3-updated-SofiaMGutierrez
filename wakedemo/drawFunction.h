@@ -1,3 +1,3 @@
 // h file
 
-void drawTree(u_int color);
+void drawT(u_int color);

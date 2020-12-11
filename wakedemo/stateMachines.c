@@ -165,8 +165,8 @@ void play_buzzer(int n)
   buzzer_set_period(2000000/n);
 }
 
-void buzz_advance()              /* called by state_advance to play siren */
-{
+//void buzz_advance()              /* called by state_advance to play siren */
+/*
   switch(state){
   case 0:
     note = 1000;
@@ -189,7 +189,7 @@ void buzz_advance()              /* called by state_advance to play siren */
   }
   play_buzzer(note);
 }
-
+*/
 void state_advance()		/* alternate between toggling red & green */
 {
   char changed = 0;

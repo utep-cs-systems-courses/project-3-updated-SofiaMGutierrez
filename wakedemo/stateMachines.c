@@ -5,8 +5,13 @@
 #include "lcdutils.h"
 #include "lcddraw.h"
 
-static int state = 1;
+static int state = 0;
 static int note = 0;
+
+short call_assembly(){
+  short note = -10;
+  return buzz_advance_assembly(note);
+}
 
 void xmas(int color)
 {
@@ -132,16 +137,6 @@ char toggle_green()
   return changed; // for state_advance
 }
 
-/*
-char song(char changed)
-{
-  char song_note = 0;
-  if(changed){
-    song_note = 10;
-  }
-  return song_note;
-}
-*/
 static int s = 1;
 static int note1 = 0;
 /*
@@ -161,38 +156,38 @@ void song()
     s = 1;
     break;
   }
-  g(n);
+  play_buzzer(note1);
 }
 */
 
-void g(int n)
+void play_buzzer(int n)
 {
-  buzzer_set_period(n);
+  buzzer_set_period(2000000/n);
 }
 
 void buzz_advance()              /* called by state_advance to play siren */
 {
-  static char note = 0;
-  switch(note){
+  switch(state){
   case 0:
-    buzzer_set_period(2000000/1000); // cycles = buzzer clock / frequency
-    note++;
+    note = 1000;
+    state++;
     break;
   case 1:
-    buzzer_set_period(2000000/2000);
-    note++;
+    note = 2000;
+    state++;
     break;
   case 2:
-    buzzer_set_period(2000000/3000);
-    note++;
+    note = 3000;
+    state++;
     break;
   case 3:
-    buzzer_set_period(2000000/4000);
-    note = 0;
+    note = 4000;
+    state = 0;
     break;
   default:
-    note++;
+    state++;
   }
+  play_buzzer(note);
 }
 
 void state_advance()		/* alternate between toggling red & green */

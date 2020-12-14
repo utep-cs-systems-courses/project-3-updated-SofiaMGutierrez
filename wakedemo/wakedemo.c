@@ -11,6 +11,7 @@
 
 short redrawScreen = 1;
 u_int color = COLOR_GREEN;
+short decide_var = 0;
 
 void wdt_c_handler()
 {
@@ -69,11 +70,11 @@ void main()
 	xmas(color);                  /* color will be changed using the wdt */
 	break;
       case 3:                         /* testing assembly */
-	if(call_assembly){
+	if(decide(decide_var)){
 	  state_advance();
 	}
-	else{
-	  song();
+	else if(decide_var == 0){
+	  buzzer_set_period(3000);
 	}
 	break;
       case 4:                         /* off state */

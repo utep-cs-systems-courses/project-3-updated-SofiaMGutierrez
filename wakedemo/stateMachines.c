@@ -4,13 +4,13 @@
 #include "buzzer.h"
 #include "lcdutils.h"
 #include "lcddraw.h"
+#include "drawFunction.h"
 
 static int state = 0;
 static int note = 0;
 
-short call_assembly(){
-  short note = -10;
-  return buzz_advance_assembly(note);
+void play_buzzer(short note){
+  buzzer_set_period(2000000/note);
 }
 
 void xmas(int color)
@@ -19,19 +19,19 @@ void xmas(int color)
   drawString5x7(20, 40, "Happy Holidays!", COLOR_RED, COLOR_WHITE);
   switch(note){
   case 0:
-    buzzer_set_period(3136);
+    buzzer_set_period(2000000/3136);
     note++;
     break;
   case 1:
-    buzzer_set_period(2093);
+    buzzer_set_period(2000000/2093);
     note++;
     break;
   case 2:
-    buzzer_set_period(2093);
+    buzzer_set_period(2000000/2093);
     note++;
     break;
   case 3:
-    buzzer_set_period(2349);
+    buzzer_set_period(2000000/2349);
     note = 0;
     break;
   }
@@ -104,7 +104,6 @@ void toggle_red75() // on, on, on, off
 
 void dim()
 {
-  char state = 0;
   switch(state){
   case 0:           /* no dim */
     red_on = 1;
@@ -127,6 +126,7 @@ void dim()
   }
 }
 
+// turns green on only when red is on
 char toggle_green()
 {
   char changed = 0;
@@ -137,60 +137,33 @@ char toggle_green()
   return changed; // for state_advance
 }
 
-static int s = 1;
-static int note1 = 0;
-/*
-void song()
+// called by state_advance to play song
+void buzz_advance()
 {
-  switch (s){
-  case 1:
-    note1 = 1000;
-    s++;
-    break;
-  case 2:
-    note1 = 2000;
-    s++;
-    break;
-  case 3:
-    note1 = 3000;
-    s = 1;
-    break;
-  }
-  play_buzzer(note1);
-}
-*/
-
-void play_buzzer(int n)
-{
-  buzzer_set_period(2000000/n);
-}
-
-//void buzz_advance()              /* called by state_advance to play siren */
-/*
   switch(state){
   case 0:
-    note = 1000;
+    buzz_assembly(0);
     state++;
     break;
   case 1:
-    note = 2000;
+    buzz_assembly(1);
     state++;
     break;
   case 2:
-    note = 3000;
+    buzz_assembly(2);
     state++;
     break;
   case 3:
-    note = 4000;
+    buzz_assembly(3);
     state = 0;
     break;
   default:
     state++;
   }
-  play_buzzer(note);
 }
-*/
-void state_advance()		/* alternate between toggling red & green */
+
+// alternate between toggling red and toggling green
+void state_advance()
 {
   char changed = 0;
   static enum {R=0, G=1} color = G;
